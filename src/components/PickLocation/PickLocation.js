@@ -15,6 +15,7 @@ class PickLocation extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     width: "100%",
