@@ -3,12 +3,14 @@ package com.rncourse;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativenavigation.NavigationApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 
 
 import java.util.Arrays;
@@ -25,7 +27,8 @@ public class MainApplication extends NavigationApplication {
   //   @Override
   //   protected List<ReactPackage> getPackages() {
   //     return Arrays.<ReactPackage>asList(
-  //         new MainReactPackage(),new VectorIconsPackage()
+  //         new MainReactPackage(),
+            new ImagePickerPackage(),new VectorIconsPackage()
   //     );
   //   }
 
@@ -56,7 +59,10 @@ public class MainApplication extends NavigationApplication {
 		// No need to add RnnPackage and MainReactPackage
 		return Arrays.<ReactPackage>asList(
 			// eg. new VectorIconsPackage()
-      new VectorIconsPackage()
+      new VectorIconsPackage(),
+      new MainReactPackage(),
+                new MapsPackage()
+
 		);
 	}
 

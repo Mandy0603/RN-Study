@@ -13,9 +13,9 @@ const reducer = (state = initialState, action) => {
           key: Math.random().toString(),
           name: action.placeName,
           image: {
-            uri:
-              "https://www.mantrahotels.com/Portals/0/GalleryImages/System/Locations/Australia/Victoria/Melbourne&Surrounds/Melbourne/Melbourne.t76962.jpg"
-          }
+            uri: action.image.uri
+          },
+          location: action.location
         })
       };
     case DELETE_PLACE:
