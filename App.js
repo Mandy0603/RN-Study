@@ -1,125 +1,167 @@
 import { Navigation } from "react-native-navigation";
 import { Provider } from "react-redux";
+import { Platform } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
-import AuthScreen from "./src/screens/Auth/Auth";
-import SharePlaceScreen from "./src/screens/SharePlace/SharePlace";
-import FindPlaceScreen from "./src/screens/FindPlace/FindPlace";
-import PlaceDetailScreen from "./src/screens/PlaceDetail/PlaceDetail";
-import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
+import ClansScreen from "./src/screens/Clans";
+import PlayersScreen from "./src/screens/Players";
+import CardsScreen from "./src/screens/Cards";
+import TournamentsScreen from "./src/screens/Tournaments";
+import LocationsScreen from "./src/screens/Locations";
+
+import SideDrawer from "./src/screens/SideDrawer";
 import configureStore from "./src/store/configureStore";
 
 const store = configureStore();
 
 //Register Screens
 Navigation.registerComponent(
-  "awesome-places.AuthScreen",
-  () => AuthScreen,
+  "awesome-places.ClansScreen",
+  () => ClansScreen,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.PlayersScreen",
+  () => PlayersScreen,
   store,
   Provider
 );
 Navigation.registerComponent(
-  "awesome-places.SharePlaceScreen",
-  () => SharePlaceScreen,
+  "awesome-places.CardsScreen",
+  () => CardsScreen,
   store,
   Provider
 );
 Navigation.registerComponent(
-  "awesome-places.FindPlaceScreen",
-  () => FindPlaceScreen,
+  "awesome-places.TournamentsScreen",
+  () => TournamentsScreen,
   store,
   Provider
 );
 Navigation.registerComponent(
-  "awesome-places.PlaceDetailScreen",
-  () => PlaceDetailScreen,
+  "awesome-places.LocationsScreen",
+  () => LocationsScreen,
   store,
   Provider
 );
+
 Navigation.registerComponent("awesome-places.SideDrawer", () => SideDrawer);
 
 //Start a App
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: "awesome-places.AuthScreen",
-    title: "Login"
-  }
-});
+const startTabs = () => {
+  Promise.all([
+    Icon.getImageSource(Platform.OS === "android" ? "md-home" : "ios-home", 30),
+    Icon.getImageSource(
+      Platform.OS === "android" ? "md-contact" : "ios-contact",
+      30
+    ),
+    Icon.getImageSource(
+      Platform.OS === "android" ? "md-albums" : "ios-albums",
+      30
+    ),
+    Icon.getImageSource(
+      Platform.OS === "android" ? "md-people" : "ios-people",
+      30
+    ),
+    Icon.getImageSource(Platform.OS === "android" ? "md-pin" : "ios-pin", 30),
 
-// import React, { Component } from "react";
-// import { StyleSheet, View } from "react-native";
-// import { connect } from "react-redux";
+    Icon.getImageSource(Platform.OS === "android" ? "md-menu" : "ios-menu", 30)
+  ]).then(sources => {
+    Navigation.startTabBasedApp({
+      tabs: [
+        {
+          screen: "awesome-places.ClansScreen",
+          label: "Clans",
+          title: "Clans",
+          icon: sources[0],
+          navigatorButtons: {
+            leftButtons: [
+              {
+                icon: sources[5],
+                title: "Menu",
+                id: "sideDrawerToggle"
+              }
+            ]
+          }
+        },
+        {
+          screen: "awesome-places.PlayersScreen",
+          label: "Players",
+          title: "Players",
+          icon: sources[1],
+          navigatorButtons: {
+            leftButtons: [
+              {
+                icon: sources[5],
+                title: "Menu",
+                id: "sideDrawerToggle"
+              }
+            ]
+          }
+        },
 
-// import PlaceInput from "./src/components/PlaceInput/PlaceInput";
-// import PlaceList from "./src/components/PlaceList/PlaceList";
-// // import placeImage from "./src/assets/Melbourne.jpg";
-// import PlaceDetail from "./src/components/PlaceDetail/PlaceDetail";
-// import {
-//   addPlace,
-//   deletePlace,
-//   selectPlace,
-//   deselectPlace
-// } from "./src/store/actions/index";
+        {
+          screen: "awesome-places.CardsScreen",
+          label: "Cards",
+          title: "Cards",
+          icon: sources[2],
+          navigatorButtons: {
+            leftButtons: [
+              {
+                icon: sources[5],
+                title: "Menu",
+                id: "sideDrawerToggle"
+              }
+            ]
+          }
+        },
+        {
+          screen: "awesome-places.TournamentsScreen",
+          label: "Tournaments",
+          title: "Tournaments",
+          icon: sources[3],
+          navigatorButtons: {
+            leftButtons: [
+              {
+                icon: sources[5],
+                title: "Menu",
+                id: "sideDrawerToggle"
+              }
+            ]
+          }
+        },
+        {
+          screen: "awesome-places.LocationsScreen",
+          label: "Locations",
+          title: "Locations",
+          icon: sources[4],
+          navigatorButtons: {
+            leftButtons: [
+              {
+                icon: sources[5],
+                title: "Menu",
+                id: "sideDrawerToggle"
+              }
+            ]
+          }
+        }
+      ],
+      tabsStyle: {
+        tabBarSelectedButtonColor: "orange"
+      },
+      drawer: {
+        left: {
+          screen: "awesome-places.SideDrawer"
+        }
+      },
+      //for Android
+      appStyle: {
+        tabBarSelectedButtonColor: "orange"
+      }
+    });
+  });
+};
 
-// class App extends Component {
-//   placeAddedHandler = placeName => {
-//     this.props.onAddPlace(placeName);
-//   };
-//   placeDeletedHandler = () => {
-//     this.props.onDeletePlace();
-//   };
-//   modalClosedHandler = () => {
-//     this.props.onDeselectPlace();
-//   };
-
-//   placeSelectedHandeler = key => {
-//     this.props.onSelectPlace(key);
-//   };
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <PlaceDetail
-//           selectedPlace={this.props.selectedPlace}
-//           onItemDeleted={this.placeDeletedHandler}
-//           onModalClosed={this.modalClosedHandler}
-//         />
-//         <PlaceInput onPlaceAdded={this.placeAddedHandler} />
-//         <PlaceList
-//           places={this.props.places}
-//           onItemSelected={this.placeSelectedHandeler}
-//         />
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 45,
-//     justifyContent: "flex-start",
-//     alignItems: "center",
-//     backgroundColor: "#F5FCFF"
-//   }
-// });
-
-// const mapStateToProps = state => {
-//   return {
-//     places: state.places.places,
-//     selectedPlace: state.places.selectedPlace
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onAddPlace: name => dispatch(addPlace(name)),
-//     onDeletePlace: () => dispatch(deletePlace()),
-//     onSelectPlace: key => dispatch(selectPlace(key)),
-//     onDeselectPlace: () => dispatch(deselectPlace())
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
+export default startTabs;
